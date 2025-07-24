@@ -7,6 +7,7 @@ export function App() {
   return (
     <ThemeProvider theme={defaultTheme}>
       <GlobalStyle />
+      <h1>Helow word</h1>
       <Button variant="primary" />
       <Button variant="secondary" />
       <Button variant="success" />
