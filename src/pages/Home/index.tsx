@@ -1,18 +1,30 @@
 import { Play } from "phosphor-react";
 import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import * as zod from "zod";
 
 import {
-  ConstdownContainer,
-  FormContainer,
   HomeContainer,
+  FormContainer,
+  ConstdownContainer,
   MinutesAmountInput,
   Separator,
   StartCountdownButton,
-  TaskIntput,
+  TaskInput,
 } from "./styles";
 
+const newCycleFormValidationSchema = zod.object({
+  task: zod.string().min(1, "Informe a tarefa"),
+  minutesAmount: zod
+    .number()
+    .min(5, "O ciclo precisa ser de no mínimo 5 minutos.")
+    .max(60, "O ciclo precisa ser de no máximo 60 minutos."),
+});
+
 export function Home() {
-  const { register, handleSubmit, watch } = useForm();
+  const { register, handleSubmit, watch } = useForm({
+    resolver: zodResolver(newCycleFormValidationSchema),
+  });
 
   function handleCreateNewCycle(data: any) {
     console.log(data);
@@ -26,10 +38,10 @@ export function Home() {
       <form onSubmit={handleSubmit(handleCreateNewCycle)}>
         <FormContainer>
           <label htmlFor="task">Vou trabalhar em</label>
-          <TaskIntput
+          <TaskInput
             id="task"
-            placeholder="Dê um nome para o seu projeto"
             list="task-suggestions"
+            placeholder="Dê um nome para o seu projeto"
             {...register("task")}
           />
 
@@ -37,6 +49,7 @@ export function Home() {
             <option value="Projeto 1" />
             <option value="Projeto 2" />
             <option value="Projeto 3" />
+            <option value="Banana" />
           </datalist>
 
           <label htmlFor="minutesAmount">durante</label>
@@ -54,9 +67,11 @@ export function Home() {
         </FormContainer>
 
         <ConstdownContainer>
-          <span>00</span>
+          <span>0</span>
+          <span>0</span>
           <Separator>:</Separator>
-          <span>00</span>
+          <span>0</span>
+          <span>0</span>
         </ConstdownContainer>
 
         <StartCountdownButton disabled={isSubmitDisabled} type="submit">
