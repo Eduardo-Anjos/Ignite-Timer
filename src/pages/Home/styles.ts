@@ -28,7 +28,7 @@ export const FormContainer = styled.div`
   font-weight: bold;
   flex-wrap: wrap;
 `;
-export const ConstdownContainer = styled.div`
+export const CountdownContainer = styled.div`
   font-family: "Roboto Mono", monospace;
   font-size: 10rem;
   line-height: 8rem;
